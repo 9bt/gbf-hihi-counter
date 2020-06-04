@@ -5,6 +5,7 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyPlugin = require('copy-webpack-plugin');
 
 const envFile = process.env.ENV_FILE || '.env';
 require('dotenv').config({
@@ -30,6 +31,9 @@ module.exports = {
       filename: 'index.html',
       basePath: process.env.CLIENT_BASE_PATH,
       inject: false,
+    }),
+    new CopyPlugin({
+      patterns: [{ from: `assets/img/`, to: 'img' }],
     }),
   ],
   resolve: {
