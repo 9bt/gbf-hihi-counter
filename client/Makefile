@@ -14,4 +14,4 @@ kill:
 	test -f ./tmp/webpack.PID && pkill -TERM -P `cat ./tmp/webpack.PID`
 
 build:
-	ENV_FILE=.env $(YARN) run build
+	ENV_FILE=.env.production $(YARN) run build

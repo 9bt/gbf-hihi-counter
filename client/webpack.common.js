@@ -1,4 +1,6 @@
 const path = require('path');
+
+const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
@@ -23,7 +25,9 @@ module.exports = {
     new MiniCssExtractPlugin({
       filename: 'css/[name].min.css',
     }),
-    new CleanWebpackPlugin(),
+    new CleanWebpackPlugin({
+      cleanStaleWebpackAssets: false,
+    }),
     new WebpackBar(),
     new VueLoaderPlugin(),
     new HtmlWebpackPlugin({
@@ -32,6 +36,9 @@ module.exports = {
       basePath: process.env.CLIENT_BASE_PATH,
       inject: false,
     }),
+    new webpack.DefinePlugin({
+      CLIENT_BASE_PATH: JSON.stringify(process.env.CLIENT_BASE_PATH),
+    }),
     new CopyPlugin({
       patterns: [{ from: `assets/img/`, to: 'img' }],
     }),
@@ -39,7 +46,8 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.js', '.json', '.vue'],
     alias: {
-      vue$: 'vue/dist/vue.esm.js',
+      '@': `${__dirname}/src`,
+      vue$: 'vue/dist/vue.runtime.esm.js',
     },
   },
   module: {
