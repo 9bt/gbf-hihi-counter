@@ -4,6 +4,9 @@
       <b-navbar-nav>
         <b-nav-item v-bind:to="{name: 'home'}">Home</b-nav-item>
       </b-navbar-nav>
+      <b-navbar-nav>
+        <b-nav-item v-bind:to="{name: 'list'}">List</b-nav-item>
+      </b-navbar-nav>
       <b-navbar-nav class="ml-auto" v-if="$route.meta.requireLogin">
         <b-nav-item-dropdown right>
           <template slot="button-content">

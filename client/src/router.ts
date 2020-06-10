@@ -4,6 +4,7 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '@/views/Home.vue';
+import List from '@/views/List.vue';
 import Auth from '@/views/Auth.vue';
 import Account from '@/views/Account.vue';
 
@@ -16,6 +17,14 @@ const router = new VueRouter({
       path: '/',
       name: 'home',
       component: Home,
+      meta: {
+        requireLogin: true,
+      },
+    },
+    {
+      path: '/list',
+      name: 'list',
+      component: List,
       meta: {
         requireLogin: true,
       },
