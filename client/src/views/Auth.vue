@@ -1,5 +1,11 @@
 <template>
-  <b-container fluid>
+  <b-container>
+    <b-row class="justify-content-md-center">
+      <b-col cols="12">
+        <b-img class="logo" src="./img/icon.svg" center />
+      </b-col>
+    </b-row>
+
     <b-row class="justify-content-md-center">
       <b-col cols="12" md="auto">
         <b-button block variant="primary" @click="loginByGoogle">Google アカウントでログインする</b-button>
@@ -21,3 +27,9 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.logo {
+  max-width: 400px;
+}
+</style>
