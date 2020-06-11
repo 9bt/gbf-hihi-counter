@@ -4,8 +4,8 @@ import Vue from 'vue';
 import VueRouter from 'vue-router';
 
 import Home from '@/views/Home.vue';
-import List from '@/views/List.vue';
-import Auth from '@/views/Auth.vue';
+import History from '@/views/History.vue';
+import Login from '@/views/Login.vue';
 import Account from '@/views/Account.vue';
 
 Vue.use(VueRouter);
@@ -22,17 +22,17 @@ const router = new VueRouter({
       },
     },
     {
-      path: '/list',
-      name: 'list',
-      component: List,
+      path: '/history',
+      name: 'history',
+      component: History,
       meta: {
         requireLogin: true,
       },
     },
     {
-      path: '/auth',
-      name: 'auth',
-      component: Auth,
+      path: '/login',
+      name: 'login',
+      component: Login,
     },
     {
       path: '/account',
@@ -48,11 +48,11 @@ const router = new VueRouter({
 router.beforeEach((to, from, next) => {
   firebase.auth().onAuthStateChanged((user) => {
     if (to.meta && to.meta.requireLogin && !user) {
-      next({ name: 'auth' });
+      next({ name: 'login' });
       return;
     }
 
-    if (to.meta && to.name === 'auth' && user) {
+    if (to.meta && to.name === 'login' && user) {
       next({ name: 'home' });
       return;
     }

@@ -1,28 +1,57 @@
 <template>
   <b-container>
-    <draggable tag="b-row">
-      <b-col md="4" v-for="(quest, questIndex) in quests" :key="questIndex">
-        <Card :quest="quest"></Card>
+    <draggable
+      tag="b-row"
+      handle=".card-handler"
+      v-model="questList"
+    >
+      <b-col md="4" v-for="(quest, questIndex) in questList" :key="questIndex">
+        <QuestCard :quest="quest"></QuestCard>
       </b-col>
     </draggable>
   </b-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, watch } from '@vue/composition-api';
 import draggable from 'vuedraggable';
 
-import Card from '@/components/card.vue';
+import QuestCard from '@/components/QuestCard.vue';
 import { quests } from '@/config/data';
+
+const CARD_ORDER_LOCAL_STORAGE_KEY = 'hihi-counter-card-order';
 
 export default defineComponent({
   components: {
     draggable,
-    Card,
+    QuestCard,
   },
   setup(props: {}, context: SetupContext) {
+    const isGottenLocalStorageItem = ref(false);
+    const questList = ref(quests);
+
+    watch(questList, () => {
+      if (!isGottenLocalStorageItem.value) {
+        const order = localStorage.getItem(CARD_ORDER_LOCAL_STORAGE_KEY);
+        if (!order) {
+          isGottenLocalStorageItem.value = true;
+          return;
+        }
+
+        const names = JSON.parse(order);
+        questList.value = questList.value.sort((a, b) => {
+          return names.indexOf(a.name) - names.indexOf(b.name);
+        });
+
+        isGottenLocalStorageItem.value = true;
+        return;
+      }
+
+      localStorage.setItem(CARD_ORDER_LOCAL_STORAGE_KEY, JSON.stringify(questList.value.map(v => v.name)));
+    });
+
     return {
-      quests,
+      questList,
     };
   },
 });

@@ -5,7 +5,15 @@
       <dt>ニックネーム</dt>
       <dd><input placeholder="ニックネーム" v-model="nickname" required></dd>
     </dl>
-    <b-button v-on:click.stop.prevent="updateProfile(nickname)">プロフィールを変更する</b-button>
+    <b-button @click.stop.prevent="
+      () => {
+        updateProfile(nickname)
+          .then(() => enableOverlay())
+          .then(() => setAlert('success', 'プロフィールの変更に成功しました'))
+          .catch(() => setAlert('danger', 'プロフィールの変更に失敗しました'))
+          .finally(() => disableOverlay());
+      }"
+    >プロフィールを変更する</b-button>
   </b-container>
 </template>
 
@@ -14,6 +22,8 @@ import { defineComponent, SetupContext, ref, onMounted } from '@vue/composition-
 
 import useAuth from '@/composables/auth';
 import useUser from '@/composables/user';
+import useAlert from '@/composables/alert';
+import useOverlay from '@/composables/overlay';
 
 export default defineComponent({
   setup(props: {}, context: SetupContext) {
@@ -23,7 +33,10 @@ export default defineComponent({
 
     return {
       nickname,
+      console,
       ...useAuth(),
+      ...useAlert(),
+      ...useOverlay(),
     };
   },
 });
