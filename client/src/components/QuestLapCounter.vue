@@ -124,7 +124,6 @@ const useCounter = (questName: string, boxType: BoxType) => {
   };
 
   const reset = () => {
-    count.value = 0;
     Promise.resolve()
       .then(() => enableOverlay())
       .then(() => updateQuestCount(user.value.uid, questName, boxType, count.value))
@@ -136,6 +135,9 @@ const useCounter = (questName: string, boxType: BoxType) => {
     Promise.resolve()
       .then(() => enableOverlay())
       .then(() => pushDrop(user.value.uid, questName, boxType, count.value))
+      .then(() => {
+        count.value = 0;
+      })
       .then(() => updateQuestCount(user.value.uid, questName, boxType, count.value))
       .then(() => disableOverlay())
       .catch(() => didFailSync());

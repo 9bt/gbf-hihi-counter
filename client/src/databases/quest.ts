@@ -32,6 +32,7 @@ export default function useQuest() {
       db.ref(`quests/${uid}/${questName}/${boxType}`).set({ count }, (err) => {
         if (err) {
           reject();
+          return;
         }
 
         resolve();
@@ -49,6 +50,7 @@ export default function useQuest() {
       db.ref(`quests/${uid}/${questName}/${boxType}`).update({ count }, (err) => {
         if (err) {
           reject();
+          return;
         }
 
         resolve();
