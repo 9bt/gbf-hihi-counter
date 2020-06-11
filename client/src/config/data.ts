@@ -52,7 +52,7 @@ export const quest: { [key: string]: Quest } = {
   },
   proto_bahamut_hl: {
     name: 'プロトバハムート HL',
-    boxes: [box.HOST_RED, box.GOLD],
+    boxes: [box.HOST_RED, box.RANK_RED],
   },
   akasha_hl: {
     name: 'アーカーシャ HL',
