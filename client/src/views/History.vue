@@ -7,9 +7,10 @@
 <script lang="ts">
 import { defineComponent, SetupContext, ref } from '@vue/composition-api';
 
-import useUser from '@/composables/user.ts';
-import useDrop, { DropList } from '@/composables/drop';
 import { box } from '@/config/data.ts';
+import useUser from '@/composables/user.ts';
+import useDrop, { DropList } from '@/databases/drop';
+import useAlert from '@/composables/alert';
 
 const convertDropList = (dropList: DropList): any[] => {
   return Object.keys(dropList)
@@ -30,10 +31,18 @@ const convertDropList = (dropList: DropList): any[] => {
 export default defineComponent({
   setup(props: {}, context: SetupContext) {
     const { user } = useUser();
+    const { setAlert } = useAlert();
     const { fetchDropList } = useDrop();
 
     const dropList = ref({} as DropList);
-    fetchDropList(user.value.uid, dropList);
+    Promise.resolve()
+      .then(() => fetchDropList(user.value.uid, dropList))
+      .then(() => {
+        if (Object.keys(dropList.value).length === 0) {
+          setAlert('warning', 'ドロップ履歴がありません');
+        }
+      })
+      .catch(() => setAlert('danger', 'ドロップ履歴の取得に失敗しました'));
 
     return {
       dropList,

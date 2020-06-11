@@ -38,6 +38,7 @@ export default function useDrop() {
     count: number
   ): Promise<void> => {
     return new Promise((resolve, reject) => {
+      reject();
       db.ref(`drops/${uid}`).push({
         quest_name: questName,
         box_type: boxType,
