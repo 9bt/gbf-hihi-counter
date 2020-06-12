@@ -1,12 +1,12 @@
 <template>
   <div>
     <b-row class="my-2">
-      <b-col cols="10" size="sm" class="my-1">
+      <b-col cols="10" size="md" class="my-1">
         <b-img class="box-icon" :src="`./img/box_${box.color}.png`" width="20px"></b-img>
         {{ box.name }}
       </b-col>
       <b-col cols="12">
-        <b-input-group size="sm">
+        <b-input-group size="md">
           <template v-slot:prepend>
             <b-button class="increment-button" variant="primary" @click="decrement">-</b-button>
           </template>
@@ -19,7 +19,7 @@
             @keydown.enter="() => !isUsingIME ? update() : undefined"
           ></b-form-input>
           <template v-slot:append>
-            <b-dropdown right size="sm">
+            <b-dropdown right size="md">
               <b-dropdown-item
                 @click="() => $bvModal.show(countResetModalId)"
               >リセット</b-dropdown-item>
@@ -93,8 +93,10 @@ const useCounter = (questName: string, boxType: BoxType) => {
         .catch(() => didFailSync());
     }
 
-    count.value++;
     Promise.resolve()
+      .then(() => {
+        count.value++;
+      })
       .then(() => enableOverlay())
       .then(() => updateQuestCount(user.value.uid, questName, boxType, count.value))
       .then(() => disableOverlay())
@@ -106,18 +108,22 @@ const useCounter = (questName: string, boxType: BoxType) => {
       return;
     }
 
-    count.value--;
     Promise.resolve()
       .then(() => enableOverlay())
+      .then(() => {
+        count.value--;
+      })
       .then(() => updateQuestCount(user.value.uid, questName, boxType, count.value))
       .then(() => disableOverlay())
       .catch(() => didFailSync());
   };
 
   const update = () => {
-    count.value = count.value || 0;
     Promise.resolve()
       .then(() => enableOverlay())
+      .then(() => {
+        count.value = count.value || 0;
+      })
       .then(() => updateQuestCount(user.value.uid, questName, boxType, count.value))
       .then(() => disableOverlay())
       .catch(() => didFailSync());
@@ -131,7 +137,7 @@ const useCounter = (questName: string, boxType: BoxType) => {
       .catch(() => didFailSync());
   };
 
-  const drop = async () => {
+  const drop = () => {
     Promise.resolve()
       .then(() => enableOverlay())
       .then(() => pushDrop(user.value.uid, questName, boxType, count.value))
