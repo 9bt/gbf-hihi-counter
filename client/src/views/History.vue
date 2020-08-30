@@ -1,11 +1,22 @@
 <template>
   <b-container>
-    <vue-good-table :columns="columns" :rows="convertDropList(dropList)" />
+    <vue-good-table
+      :columns="columns"
+      :rows="convertDropList(dropList)"
+      ref="dropListTable"
+      @on-column-filter="onColumnFilter"
+    >
+      <div slot="table-actions-bottom" class="footer">
+        <span class="mx-2">合計ドロップ数： {{ dropCount || '-' }} 個</span>
+        <span class="mx-2">合計周回数： {{ count || '-' }} 回</span>
+        <span class="mx-2">ドロップ率： {{ dropRate || '-' }} %</span>
+      </div>
+    </vue-good-table>
   </b-container>
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, computed } from '@vue/composition-api';
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
 
@@ -14,7 +25,14 @@ import useUser from '@/composables/user.ts';
 import useDrop, { DropList } from '@/databases/drop';
 import useAlert from '@/composables/alert';
 
-const convertDropList = (dropList: DropList): any[] => {
+type DropItem = {
+  questName: string;
+  boxName: string;
+  droppedAt: string;
+  count: number;
+}
+
+const convertDropList = (dropList: DropList): DropItem[] => {
   return Object.keys(dropList)
     .map((key) => {
       const drop = dropList[key];
@@ -25,7 +43,7 @@ const convertDropList = (dropList: DropList): any[] => {
         questName: drop.quest_name,
         boxName: box[boxKey].name,
         droppedAt: `${droppedAt.getFullYear()}/${droppedAt.getMonth() + 1}/${droppedAt.getDate()}`,
-        dropCount: drop.count,
+        count: drop.count,
       };
     });
 };
@@ -61,10 +79,23 @@ export default defineComponent({
       },
       {
         label: '周回数',
-        field: 'dropCount',
+        field: 'count',
         type: 'number',
       },
     ];
+
+    const dropListTable = ref();
+
+    const count = ref<number>();
+    const dropCount = ref<number>();
+    function onColumnFilter(params: any) {
+      const drops: DropItem[] = ((dropListTable.value ?? { filteredRows: [] as any[] }).filteredRows[0] ?? { children: [] as DropItem[] }).children;
+      dropCount.value = drops.length;
+      count.value = drops.reduce((prev, current) => prev + current.count, 0);
+    }
+    const dropRate = computed(() => {
+      return Math.round((dropCount.value || 0) / (count.value || 0) * 100 * 10000) / 10000;
+    });
 
     const dropList = ref({} as DropList);
     Promise.resolve()
@@ -72,15 +103,30 @@ export default defineComponent({
       .then(() => {
         if (Object.keys(dropList.value).length === 0) {
           setAlert('warning', 'ドロップ履歴がありません');
+          return;
         }
+
+        onColumnFilter({ columnFilters: [] });
       })
       .catch(() => setAlert('danger', 'ドロップ履歴の取得に失敗しました'));
 
     return {
+      dropListTable,
       dropList,
       columns,
+      dropCount,
+      count,
+      dropRate,
       convertDropList,
+      onColumnFilter,
     };
   },
 });
 </script>
+
+<style scoped>
+.footer {
+  padding: .75em .75em .75em .75em;
+  color: #606266;
+}
+</style>
