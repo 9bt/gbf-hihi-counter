@@ -1,0 +1,18 @@
+language: node_js
+node_js:
+  - 12
+
+script:
+  - cd client
+  - yarn
+  - ENV_FILE=.env.production yarn run build
+  - cd $TRAVIS_BUILD_DIR
+
+deploy:
+  - provider: firebase
+    skip_cleanup: true
+    token:
+      secure: $FIREBASE_TOKEN
+    on:
+      repo: 9bt/gbf-hihi-counter
+      branch: master

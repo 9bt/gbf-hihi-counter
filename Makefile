@@ -1,5 +1,8 @@
 PORT := 2000
 
+test:
+	@echo 'do nothing'
+
 build:
 	cd client && make build
 
