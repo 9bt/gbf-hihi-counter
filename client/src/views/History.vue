@@ -8,7 +8,7 @@
     >
       <div slot="table-actions-bottom" class="footer">
         <span class="mx-2">合計ドロップ数： {{ dropCount || '-' }} 個</span>
-        <span class="mx-2">合計周回数： {{ count || '-' }} 回</span>
+        <span class="mx-2">合計箱数： {{ count || '-' }} 個</span>
         <span class="mx-2">ドロップ率： {{ dropRate || '-' }} %</span>
       </div>
     </vue-good-table>
@@ -78,7 +78,7 @@ export default defineComponent({
         dateOutputFormat: 'yyyy-MM-dd',
       },
       {
-        label: '周回数',
+        label: '箱数',
         field: 'count',
         type: 'number',
       },
