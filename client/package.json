@@ -52,6 +52,7 @@
     "bootstrap-vue": "^2.15.0",
     "firebase": "^7.15.0",
     "vue": "^2.6.11",
+    "vue-good-table": "^2.21.0",
     "vue-router": "^3.3.2",
     "vuedraggable": "^2.23.2"
   }

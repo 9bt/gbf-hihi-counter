@@ -1,11 +1,13 @@
 <template>
   <b-container>
-    <b-table :items="convertDropList(dropList)"></b-table>
+    <vue-good-table :columns="columns" :rows="convertDropList(dropList)" />
   </b-container>
 </template>
 
 <script lang="ts">
 import { defineComponent, SetupContext, ref } from '@vue/composition-api';
+import { VueGoodTable } from 'vue-good-table';
+import 'vue-good-table/dist/vue-good-table.css';
 
 import { box } from '@/config/data.ts';
 import useUser from '@/composables/user.ts';
@@ -20,19 +22,49 @@ const convertDropList = (dropList: DropList): any[] => {
       const droppedAt = new Date(drop.dropped_at);
 
       return {
-        クエスト: drop.quest_name,
-        箱: box[boxKey].name,
-        日付: `${droppedAt.getFullYear()}/${droppedAt.getMonth() + 1}/${droppedAt.getDate()}`,
-        周回数: drop.count,
+        questName: drop.quest_name,
+        boxName: box[boxKey].name,
+        droppedAt: `${droppedAt.getFullYear()}/${droppedAt.getMonth() + 1}/${droppedAt.getDate()}`,
+        dropCount: drop.count,
       };
     });
 };
 
 export default defineComponent({
+  components: {
+    'vue-good-table': VueGoodTable,
+  },
   setup(props: {}, context: SetupContext) {
     const { user } = useUser();
     const { setAlert } = useAlert();
     const { fetchDropList } = useDrop();
+
+    const columns = [
+      {
+        label: 'クエスト',
+        field: 'questName',
+        filterOptions: {
+          placeholder: 'クエストを絞り込む',
+          enabled: true,
+        },
+      },
+      {
+        label: '箱',
+        field: 'boxName',
+      },
+      {
+        label: '日付',
+        field: 'droppedAt',
+        type: 'date',
+        dateInputFormat: 'yyyy/M/d',
+        dateOutputFormat: 'yyyy-MM-dd',
+      },
+      {
+        label: '周回数',
+        field: 'dropCount',
+        type: 'number',
+      },
+    ];
 
     const dropList = ref({} as DropList);
     Promise.resolve()
@@ -46,6 +78,7 @@ export default defineComponent({
 
     return {
       dropList,
+      columns,
       convertDropList,
     };
   },
