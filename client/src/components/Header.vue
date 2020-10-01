@@ -22,15 +22,17 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext } from '@vue/composition-api';
+import { defineComponent, SetupContext, inject } from '@vue/composition-api';
 
 import useAuth from '@/composables/auth';
-import useUser from '@/composables/user';
+import { UserKey, UserStore } from '@/composables/user';
 
 export default defineComponent({
   setup(props: {}, context: SetupContext) {
+    const { user } = inject(UserKey) as UserStore;
+
     return {
-      ...useUser(),
+      user,
       ...useAuth(),
     };
   },

@@ -1,11 +1,11 @@
-import { toRefs, reactive, computed } from '@vue/composition-api';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
+import { toRefs, reactive, computed, inject } from '@vue/composition-api';
 
-import useUser from '@/composables/user';
+import { UserKey, UserStore } from '@/composables/user';
 
 export default function useAuth() {
-  const { setUser } = useUser();
+  const { setUser } = inject(UserKey) as UserStore;
 
   const loginByGoogle = (): Promise<void> => {
     const provider = new firebase.auth.GoogleAuthProvider();

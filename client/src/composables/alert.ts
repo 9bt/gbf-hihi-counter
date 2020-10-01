@@ -1,20 +1,14 @@
-import { reactive, computed } from '@vue/composition-api';
+import { reactive, computed, InjectionKey } from '@vue/composition-api';
 
-type Alert = {
-  message: string,
-  variant: string,
-};
-
-let initialized = false;
-let state = {
-  alerts: {} as { [key: string]: Alert },
-};
+interface Alert {
+  message: string;
+  variant: string;
+}
 
 export default function useAlert() {
-  if (!initialized) {
-    state = reactive(state);
-    initialized = true;
-  }
+  const state = reactive({
+    alerts: {} as { [key: string]: Alert },
+  });
 
   const setAlert = (variant: string, message: string) => {
     const alertId = window.setTimeout(() => {
@@ -41,3 +35,6 @@ export default function useAlert() {
     clearAllAlerts,
   };
 };
+
+export type AlertStore = ReturnType<typeof useAlert>;
+export const AlertKey: InjectionKey<AlertStore> = Symbol('AlertStore');

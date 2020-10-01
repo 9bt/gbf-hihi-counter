@@ -18,25 +18,27 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref, onMounted } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, inject } from '@vue/composition-api';
 
 import useAuth from '@/composables/auth';
-import useUser from '@/composables/user';
-import useAlert from '@/composables/alert';
-import useOverlay from '@/composables/overlay';
+import { AlertKey, AlertStore } from '@/composables/alert';
+import { OverlayKey, OverlayStore } from '@/composables/overlay';
+import { UserKey, UserStore } from '@/composables/user';
 
 export default defineComponent({
   setup(props: {}, context: SetupContext) {
-    const { user } = useUser();
+    const { user } = inject(UserKey) as UserStore;
+    const { enableOverlay, disableOverlay } = inject(OverlayKey) as OverlayStore;
+    const { setAlert } = inject(AlertKey) as AlertStore;
 
     const nickname = ref(user.value.displayName);
 
     return {
       nickname,
-      console,
       ...useAuth(),
-      ...useAlert(),
-      ...useOverlay(),
+      enableOverlay,
+      disableOverlay,
+      setAlert,
     };
   },
 });

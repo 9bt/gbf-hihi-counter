@@ -16,14 +16,14 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref, computed } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, computed, inject } from '@vue/composition-api';
 import { VueGoodTable } from 'vue-good-table';
 import 'vue-good-table/dist/vue-good-table.css';
 
+import { AlertKey, AlertStore } from '@/composables/alert';
+import { UserKey, UserStore } from '@/composables/user';
 import { box } from '@/config/data.ts';
-import useUser from '@/composables/user.ts';
 import useDrop, { DropList } from '@/databases/drop';
-import useAlert from '@/composables/alert';
 
 type DropItem = {
   questName: string;
@@ -53,8 +53,8 @@ export default defineComponent({
     'vue-good-table': VueGoodTable,
   },
   setup(props: {}, context: SetupContext) {
-    const { user } = useUser();
-    const { setAlert } = useAlert();
+    const { setAlert } = inject(AlertKey) as AlertStore;
+    const { user } = inject(UserKey) as UserStore;
     const { fetchDropList } = useDrop();
 
     const columns = [

@@ -20,7 +20,6 @@
 import { defineComponent, SetupContext, ref } from '@vue/composition-api';
 
 import QuestLapCounter from '@/components/QuestLapCounter.vue';
-import useUser from '@/composables/user.ts';
 import { Quest } from '@/config/data.ts';
 
 type Props = {

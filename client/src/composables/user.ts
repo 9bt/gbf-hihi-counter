@@ -1,17 +1,11 @@
-import { reactive, computed } from '@vue/composition-api';
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-
-let initialized = false;
-let state = {
-  user: {} as firebase.User,
-};
+import { reactive, computed, InjectionKey } from '@vue/composition-api';
 
 export default function useUser() {
-  if (!initialized) {
-    state = reactive(state);
-    initialized = true;
-  }
+  const state = reactive({
+    user: {} as firebase.User,
+  });
 
   const setUser = (user: firebase.User | null) => {
     state.user = user ?? {} as firebase.User;
@@ -29,3 +23,6 @@ export default function useUser() {
     setUser,
   };
 };
+
+export type UserStore = ReturnType<typeof useUser>;
+export const UserKey: InjectionKey<UserStore> = Symbol('UserStore');

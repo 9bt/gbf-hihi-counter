@@ -52,18 +52,19 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, inject } from '@vue/composition-api';
 
 import { Box, BoxType } from '@/config/data';
-import useUser from '@/composables/user';
 import useQuest from '@/databases/quest';
 import useDrop from '@/databases/drop';
-import useAlert from '@/composables/alert';
-import useOverlay from '@/composables/overlay';
+import { AlertKey, AlertStore } from '@/composables/alert';
+import { OverlayKey, OverlayStore }from '@/composables/overlay';
+import { UserKey, UserStore } from '@/composables/user';
 
 const useCounter = (questName: string, boxType: BoxType) => {
-  const { setAlert } = useAlert();
-  const { disableOverlay, enableOverlay } = useOverlay();
+  const { setAlert } = inject(AlertKey) as AlertStore;
+  const { disableOverlay, enableOverlay } = inject(OverlayKey) as OverlayStore;
+  const { user } = inject(UserKey) as UserStore;
 
   const didFailSync = () => {
     setAlert('danger', '同期に失敗しました。ページを再読込します');
@@ -74,7 +75,6 @@ const useCounter = (questName: string, boxType: BoxType) => {
 
   const count = ref(0);
 
-  const { user } = useUser();
   const { fetchQuestCount, setQuestCount, updateQuestCount } = useQuest();
   const { pushDrop } = useDrop();
 
