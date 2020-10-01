@@ -22,21 +22,25 @@
 <script lang="ts">
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { defineComponent, SetupContext, onMounted } from '@vue/composition-api';
+import { defineComponent, SetupContext, onMounted, provide, inject } from '@vue/composition-api';
 
 import Header from '@/components/Header.vue';
-import useUser from '@/composables/user';
-import useAlert from '@/composables/alert';
-import useOverlay from '@/composables/overlay';
+import useAlert, { AlertKey, AlertStore } from '@/composables/alert';
+import useUser, { UserKey, UserStore } from '@/composables/user';
+import useOverlay, { OverlayKey, OverlayStore } from '@/composables/overlay';
 
 export default defineComponent({
   components: {
     Header,
   },
   setup(props: {}, context: SetupContext) {
-    const { setUser } = useUser();
-    const { alerts, clearAllAlerts } = useAlert();
-    const { disabledOverlay } = useOverlay();
+    provide(AlertKey, useAlert());
+    provide(UserKey, useUser());
+    provide(OverlayKey, useOverlay());
+
+    const { setUser } = inject(UserKey) as UserStore;
+    const { disabledOverlay } = inject(OverlayKey) as OverlayStore;
+    const { clearAllAlerts, alerts } = inject(AlertKey) as AlertStore;
 
     context.root.$router.afterEach(() => {
       clearAllAlerts();

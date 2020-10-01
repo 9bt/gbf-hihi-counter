@@ -20,16 +20,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, onMounted } from '@vue/composition-api';
+import { defineComponent, SetupContext, onMounted, inject } from '@vue/composition-api';
 
 import useAuth from '@/composables/auth';
 import useUserAgent from '@/composables/user-agent';
-import useOverlay from '@/composables/overlay';
+import { OverlayKey, OverlayStore } from '@/composables/overlay';
 
 export default defineComponent({
   setup(props: {}, context: SetupContext) {
     const { loginByGoogle } = useAuth();
-    const { disableOverlay, enableOverlay } = useOverlay();
+    const { disableOverlay, enableOverlay } = inject(OverlayKey) as OverlayStore;
 
     const login = () => {
       Promise.resolve()
