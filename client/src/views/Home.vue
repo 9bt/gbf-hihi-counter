@@ -5,7 +5,7 @@
       handle=".card-handler"
       v-model="questList"
     >
-      <b-col md="4" v-for="(quest, questIndex) in questList" :key="questIndex">
+      <b-col md="4" v-for="(quest, questIndex) in questList" :key="quest.name" class="quest">
         <QuestCard :quest="quest"></QuestCard>
       </b-col>
     </draggable>
