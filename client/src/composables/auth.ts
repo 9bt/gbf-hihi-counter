@@ -18,14 +18,14 @@ export default function useAuth() {
         const user = firebase.auth().currentUser;
         setUser(user);
       });
-  }
+  };
 
   const logout = (): Promise<void> => {
     return firebase.auth().signOut()
       .then(() => {
         setUser({} as firebase.User);
       });
-  }
+  };
 
   const updateProfile = (name: string): Promise<void> => {
     const user = firebase.auth().currentUser;
@@ -40,7 +40,7 @@ export default function useAuth() {
         const user = firebase.auth().currentUser;
         setUser(user);
       });
-  }
+  };
 
   return {
     loginByGoogle,

@@ -7,11 +7,11 @@ export default function useOverlay() {
 
   const disableOverlay = () => {
     state.disabledOverlay = true;
-  }
+  };
 
   const enableOverlay = () => {
     state.disabledOverlay = false;
-  }
+  };
 
   const disabledOverlay = computed(() => state.disabledOverlay);
 
