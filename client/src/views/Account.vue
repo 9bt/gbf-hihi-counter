@@ -18,7 +18,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref, inject } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, inject } from 'vue';
 
 import useAuth from '@/composables/auth';
 import { AlertKey, AlertStore } from '@/composables/alert';

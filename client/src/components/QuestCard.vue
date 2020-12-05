@@ -17,7 +17,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref } from 'vue';
 
 import QuestLapCounter from '@/components/QuestLapCounter.vue';
 import { Quest } from '@/config/data.ts';
@@ -35,6 +35,10 @@ export default defineComponent({
   components: {
     QuestLapCounter,
   },
-  setup(props: Props, context: SetupContext) {},
+  setup(props: any, context: SetupContext) {
+    return {
+      quest: props.quest,
+    };
+  },
 });
 </script>

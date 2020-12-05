@@ -1,6 +1,5 @@
 import firebase from 'firebase/app';
-import Vue from 'vue';
-import VueCompositionApi from '@vue/composition-api';
+import { createApp } from 'vue';
 import BootstrapVue from 'bootstrap-vue';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
@@ -21,16 +20,9 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig);
 
-Vue.use(VueCompositionApi);
-Vue.use(BootstrapVue);
-
 window.addEventListener('load', () => {
-  new Vue({
-    router,
-    el: '#app',
-    components: {
-      App,
-    },
-    render: (h) => h('app'),
-  });
+  const app = createApp(App);
+  app.use(router);
+  // app.use(BootstrapVue);
+  app.mount('#app');
 });

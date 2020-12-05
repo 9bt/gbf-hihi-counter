@@ -20,7 +20,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, onMounted, inject } from '@vue/composition-api';
+import { defineComponent, SetupContext, onMounted, inject } from 'vue';
 
 import useAuth from '@/composables/auth';
 import useUserAgent from '@/composables/user-agent';

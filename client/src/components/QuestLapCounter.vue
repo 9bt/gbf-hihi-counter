@@ -52,7 +52,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref } from 'vue';
 
 import { Box, BoxType } from '@/config/data';
 import useCounter from '@/composables/counter';
@@ -71,7 +71,7 @@ export default defineComponent({
       type: Object,
     },
   },
-  setup(props: Props, context: SetupContext) {
+  setup(props: any, context: SetupContext) {
     const isUsingIME = ref(false);
 
     return {

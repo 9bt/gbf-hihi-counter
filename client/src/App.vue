@@ -22,7 +22,8 @@
 <script lang="ts">
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { defineComponent, SetupContext, onMounted, provide, inject } from '@vue/composition-api';
+import { defineComponent, SetupContext, getCurrentInstance, onMounted, provide, inject } from 'vue';
+import { useRouter } from 'vue-router';
 
 import Header from '@/components/Header.vue';
 import useAlert, { AlertKey, AlertStore } from '@/composables/alert';
@@ -42,7 +43,8 @@ export default defineComponent({
     const { disabledOverlay } = inject(OverlayKey) as OverlayStore;
     const { clearAllAlerts, alerts } = inject(AlertKey) as AlertStore;
 
-    context.root.$router.afterEach(() => {
+    const router = useRouter();
+    router.afterEach(() => {
       clearAllAlerts();
     });
 

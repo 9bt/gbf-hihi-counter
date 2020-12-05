@@ -1,4 +1,4 @@
-import { ref, onMounted, inject } from '@vue/composition-api';
+import { ref, onMounted, inject } from 'vue';
 
 import { BoxType } from '@/config/data';
 import useQuest from '@/databases/quest';

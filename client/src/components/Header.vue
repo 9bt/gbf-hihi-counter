@@ -22,7 +22,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, inject } from '@vue/composition-api';
+import { defineComponent, SetupContext, inject } from 'vue';
 
 import useAuth from '@/composables/auth';
 import { UserKey, UserStore } from '@/composables/user';

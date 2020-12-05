@@ -1,4 +1,4 @@
-import { reactive, computed, InjectionKey } from '@vue/composition-api';
+import { reactive, computed, InjectionKey } from 'vue';
 
 export default function useOverlay() {
   const state = reactive({

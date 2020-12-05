@@ -13,7 +13,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, SetupContext, ref, watch } from '@vue/composition-api';
+import { defineComponent, SetupContext, ref, watch } from 'vue';
 import draggable from 'vuedraggable';
 
 import QuestCard from '@/components/QuestCard.vue';

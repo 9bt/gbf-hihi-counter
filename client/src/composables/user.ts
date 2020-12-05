@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { reactive, computed, InjectionKey } from '@vue/composition-api';
+import { reactive, computed, InjectionKey } from 'vue';
 
 export default function useUser() {
   const state = reactive({

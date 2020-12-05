@@ -1,6 +1,6 @@
 import * as firebase from 'firebase/app';
 import 'firebase/auth';
-import { toRefs, reactive, computed, inject } from '@vue/composition-api';
+import { toRefs, reactive, computed, inject } from 'vue';
 
 import { UserKey, UserStore } from '@/composables/user';
 

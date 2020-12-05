@@ -1,4 +1,4 @@
-import { Ref } from '@vue/composition-api';
+import { Ref } from 'vue';
 import * as firebase from 'firebase/app';
 import 'firebase/database';
 

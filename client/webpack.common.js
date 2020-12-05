@@ -3,7 +3,7 @@ const path = require('path');
 const webpack = require('webpack');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const WebpackBar = require('webpackbar');
-const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const { VueLoaderPlugin } = require('vue-loader');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const FixStyleOnlyEntriesPlugin = require('webpack-fix-style-only-entries');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
@@ -47,7 +47,7 @@ module.exports = {
     extensions: ['.ts', '.js', '.json', '.vue'],
     alias: {
       '@': `${__dirname}/src`,
-      vue$: 'vue/dist/vue.runtime.esm.js',
+      vue$: '@vue/runtime-dom',
     },
   },
   module: {
