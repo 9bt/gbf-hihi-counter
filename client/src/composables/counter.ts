@@ -33,6 +33,8 @@ export default function useCounter(questName: string, boxType: BoxType) {
 
   const increment = async (): Promise<void> => {
     if (count.value === 0) {
+      count.value++;
+
       enableOverlay();
       await setQuestCount(user.value.uid, questName, boxType, count.value).catch(() => didFailSync());
 
